@@ -1,0 +1,46 @@
+﻿@page "/student-list"
+@using StudentManagementApp.Data
+@using StudentManagmentApp.Models
+@inject StudentService StudentService
+@inject IJSRuntime JSRuntime
+
+<h3>Lista studentów</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Avatar</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Birthdate</th>
+            <th>Studies</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in StudentService.Students)
+        {
+            <tr>
+                <td><img src="@student.AvatarUrl" alt="Avatar" /></td>
+                <td>@student.FirstName</td>
+                <td>@student.LastName</td>
+                <td>@student.BirthDate.ToString("MM/dd/yyyy")</td>
+                <td>@student.Studies</td>
+                <td><button @onclick="@(() => DeleteStudent(student))">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    async Task DeleteStudent(Student student)
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirmDelete", $"Are you sure you want to delete {student.FirstName} {student.LastName}?");
+        if (confirmed)
+        {
+            StudentService.Students.Remove(student);
+            // This will schedule the StateHasChanged to run on the component's synchronization context
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

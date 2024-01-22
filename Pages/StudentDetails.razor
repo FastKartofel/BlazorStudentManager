@@ -1,0 +1,44 @@
+﻿@page "/student-details"
+@using StudentManagementApp.Data;
+@using StudentManagmentApp.Models
+@inject StudentService StudentService
+@inject NavigationManager NavigationManager
+
+<h3>Add New Student</h3>
+
+<EditForm Model="newStudent" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div>
+        <label>First Name:</label>
+        <InputText @bind-Value="newStudent.FirstName" />
+    </div>
+    <div>
+        <label>Last Name:</label>
+        <InputText @bind-Value="newStudent.LastName" />
+    </div>
+    <div>
+        <label>Birthdate:</label>
+        <InputDate @bind-Value="newStudent.BirthDate" />
+    </div>
+    <div>
+        <label>Studies:</label>
+        <InputText @bind-Value="newStudent.Studies" />
+    </div>
+    <div>
+        <label>Avatar URL:</label>
+        <InputText @bind-Value="newStudent.AvatarUrl" />
+    </div>
+
+    <button type="submit">Add Student</button>
+</EditForm>
+
+@code {
+    private Student newStudent = new Student();
+
+    private void HandleValidSubmit()
+    {
+        StudentService.AddStudent(newStudent);
+        NavigationManager.NavigateTo("/student-list");
+    }
+}
