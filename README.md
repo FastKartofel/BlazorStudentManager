@@ -9,7 +9,7 @@
 - Data Interaction: Utilize forms and data binding to easily interact with and update student information.
 - Navigation: Seamless navigation between the student list and individual student details.
 - Responsive Design: Adaptively renders across various devices and screen sizes.
-- 
+
 # Getting Started
 
 ## Prerequisites
